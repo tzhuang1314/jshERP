@@ -28,12 +28,12 @@ public interface SerialNumberMapperEx {
      * */
     int findSerialNumberByMaterialId(@Param("materialId") Long materialId);
     /**
-     * 卖出： update jsh_serial_number set is_Sell='1' ,depothead_Id='depotheadId' where 1=1 and material_Id='materialId'
+     * 卖出： update t_serial_number set is_Sell='1' ,depothead_Id='depotheadId' where 1=1 and material_Id='materialId'
      * and is_Sell !='1' and delete_Flag !='1'  {limit 0，count}
      * */
     int sellSerialNumber(@Param("materialId")Long materialId, @Param("outBillNo")String outBillNo, @Param("snArray") String snArray[], @Param("updateTime") Date updateTime,@Param("updater") Long updater);
     /**
-     * 赎回：update jsh_serial_number set is_Sell='0',depothead_Id=null  where 1=1 and material_Id='materialId'
+     * 赎回：update t_serial_number set is_Sell='0',depothead_Id=null  where 1=1 and material_Id='materialId'
      *      and depothead_Id='depotheadId' and is_Sell ！='0' and delete_Flag !='1' {limit 0，count}
      * */
     int cancelSerialNumber(@Param("materialId")Long materialId, @Param("outBillNo")String outBillNo, @Param("count")Integer count, @Param("updateTime") Date updateTime,@Param("updater") Long updater);

@@ -272,7 +272,7 @@ public class MaterialService {
     @Transactional(value = "transactionManager", rollbackFor = Exception.class)
     public int batchDeleteMaterialByIds(String ids) throws Exception{
         String [] idArray=ids.split(",");
-        //校验单据子表	jsh_depot_item
+        //校验单据子表	t_depot_item
         List<DepotItem> depotItemList =null;
         try{
             depotItemList=  depotItemMapperEx.getDepotItemListListByMaterialIds(idArray);

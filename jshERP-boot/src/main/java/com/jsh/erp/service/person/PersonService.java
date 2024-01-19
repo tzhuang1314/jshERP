@@ -146,7 +146,7 @@ public class PersonService {
     public int batchDeletePersonByIds(String ids)throws Exception {
         int result =0;
         String [] idArray=ids.split(",");
-        //校验财务主表	jsh_accounthead
+        //校验财务主表	t_accounthead
         List<AccountHead> accountHeadList =null;
         try{
             accountHeadList=accountHeadMapperEx.getAccountHeadListByHandsPersonIds(idArray);
@@ -159,7 +159,7 @@ public class PersonService {
             throw new BusinessRunTimeException(ExceptionConstants.DELETE_FORCE_CONFIRM_CODE,
                     ExceptionConstants.DELETE_FORCE_CONFIRM_MSG);
         }
-        //校验单据主表	jsh_depot_head
+        //校验单据主表	t_depot_head
         List<DepotHead> depotHeadList =null;
         try{
             depotHeadList=depotHeadMapperEx.getDepotHeadListByCreator(idArray);

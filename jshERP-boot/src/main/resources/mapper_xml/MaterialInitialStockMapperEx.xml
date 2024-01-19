@@ -3,7 +3,7 @@
 <mapper namespace="com.jsh.erp.datasource.mappers.MaterialInitialStockMapperEx">
 
   <insert id="batchInsert" parameterType="java.util.List">
-    insert into jsh_material_initial_stock (material_id, depot_id, number)
+    insert into t_material_initial_stock (material_id, depot_id, number)
     values
     <foreach collection="list" item="item" separator=",">
       (#{item.materialId,jdbcType=BIGINT}, #{item.depotId,jdbcType=BIGINT},#{item.number,jdbcType=DECIMAL})
@@ -11,7 +11,7 @@
   </insert>
 
   <select id="getListExceptZero" resultType="com.jsh.erp.datasource.entities.MaterialInitialStock">
-    select * from jsh_material_initial_stock where number!=0
+    select * from t_material_initial_stock where number!=0
     and ifnull(delete_flag,'0') !='1'
   </select>
 

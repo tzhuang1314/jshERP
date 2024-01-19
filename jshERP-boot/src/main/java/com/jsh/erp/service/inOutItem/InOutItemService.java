@@ -142,7 +142,7 @@ public class InOutItemService {
     public int batchDeleteInOutItemByIds(String ids)throws Exception {
         int result = 0;
         String [] idArray=ids.split(",");
-        //校验财务子表	jsh_accountitem
+        //校验财务子表	t_accountitem
         List<AccountItem> accountItemList=null;
         try{
             accountItemList=accountItemMapperEx.getAccountItemListByInOutItemIds(idArray);

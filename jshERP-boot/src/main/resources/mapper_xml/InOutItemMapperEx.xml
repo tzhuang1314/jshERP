@@ -3,7 +3,7 @@
 <mapper namespace="com.jsh.erp.datasource.mappers.InOutItemMapperEx">
     <select id="selectByConditionInOutItem" parameterType="com.jsh.erp.datasource.entities.InOutItemExample" resultMap="com.jsh.erp.datasource.mappers.InOutItemMapper.BaseResultMap">
         select *
-        FROM jsh_in_out_item
+        FROM t_in_out_item
         where 1=1
         <if test="name != null">
             <bind name="bindName" value="'%'+name+'%'"/>
@@ -25,7 +25,7 @@
     <select id="countsByInOutItem" resultType="java.lang.Long">
         SELECT
         COUNT(id)
-        FROM jsh_in_out_item
+        FROM t_in_out_item
         WHERE 1=1
         <if test="name != null">
             <bind name="bindName" value="'%'+name+'%'"/>
@@ -41,7 +41,7 @@
         and ifnull(delete_flag,'0') !='1'
     </select>
     <update id="batchDeleteInOutItemByIds">
-        update jsh_in_out_item
+        update t_in_out_item
         set delete_flag='1'
         where 1=1
         and id in (

@@ -13,7 +13,7 @@
     </resultMap>
     <insert id="addSerialNumber" parameterType="com.jsh.erp.datasource.entities.SerialNumberEx"
             useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-       insert into jsh_serial_number
+       insert into t_serial_number
         (material_id, serial_number, is_sell, remark,delete_flag,
         create_time, creator,update_time, updater,in_bill_no, out_bill_no)
         values
@@ -22,7 +22,7 @@
         )
     </insert>
     <update id="updateSerialNumber" parameterType="com.jsh.erp.datasource.entities.SerialNumberEx">
-        update jsh_serial_number
+        update t_serial_number
         <set>
             <if test="materialId != null">
                 material_id = #{materialId,jdbcType=BIGINT},
@@ -58,7 +58,7 @@
     <select id="findSerialNumberByMaterialId" resultType="java.lang.Integer">
         SELECT
         count(ser.id)
-        FROM jsh_serial_number ser
+        FROM t_serial_number ser
         where 1=1
         <if test="materialId != null">
             and ser.material_Id=#{materialId}
@@ -67,7 +67,7 @@
         and ser.is_sell !='1'
     </select>
     <update id="sellSerialNumber">
-        update jsh_serial_number
+        update t_serial_number
         <set>
             is_sell = '1',
             <if test="outBillNo !=null ">
@@ -98,7 +98,7 @@
     </update>
 
     <update id="cancelSerialNumber">
-        update jsh_serial_number
+        update t_serial_number
         <set>
                 is_sell = '0', out_bill_no=null,
             <if test="updateTime !=null ">
@@ -120,7 +120,7 @@
         <if test="count != null">
             and id in
             ( select batchSN.id from
-            ( select selFrom.id from jsh_serial_number selFrom
+            ( select selFrom.id from t_serial_number selFrom
             where 1=1
             <if test="materialId != null">
                 and selFrom.material_id = #{materialId}
@@ -137,7 +137,7 @@
     </update>
     <insert id="batAddSerialNumber"
             useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-       insert into jsh_serial_number
+       insert into t_serial_number
         (material_id, serial_number, is_sell, remark,delete_flag,
         create_time, creator,update_time, updater)
         values
@@ -148,7 +148,7 @@
         </foreach>
     </insert>
     <update id="batchDeleteSerialNumberByIds">
-        update jsh_serial_number
+        update t_serial_number
         set update_time=#{updateTime},updater=#{updater},delete_flag='1'
         where 1=1
         and id in (
@@ -161,9 +161,9 @@
     <select id="getEnableSerialNumberList" resultType="com.jsh.erp.datasource.entities.SerialNumberEx">
         select
         ser.id, ser.serial_number, ser.in_bill_no, ser.create_time, ser.update_time
-        FROM jsh_serial_number ser
-        left join jsh_material m on m.id=ser.material_id and ifnull(m.delete_flag, '0') != '1'
-        left join jsh_material_extend me on me.material_id=m.id and ifnull(me.delete_flag,'0') !='1'
+        FROM t_serial_number ser
+        left join t_material m on m.id=ser.material_id and ifnull(m.delete_flag, '0') != '1'
+        left join t_material_extend me on me.material_id=m.id and ifnull(me.delete_flag,'0') !='1'
         where 1=1 and me.default_flag=1
         <if test="name != null">
             <bind name="bindName" value="'%'+name+'%'"/>
@@ -189,9 +189,9 @@
     <select id="getEnableSerialNumberCount" resultType="java.lang.Long">
         select
         count(1)
-        FROM jsh_serial_number ser
-        left join jsh_material m on m.id=ser.material_id and ifnull(m.delete_flag, '0') != '1'
-        left join jsh_material_extend me on me.material_id=m.id and ifnull(me.delete_flag,'0') !='1'
+        FROM t_serial_number ser
+        left join t_material m on m.id=ser.material_id and ifnull(m.delete_flag, '0') != '1'
+        left join t_material_extend me on me.material_id=m.id and ifnull(me.delete_flag,'0') !='1'
         where 1=1 and me.default_flag=1
         <if test="name != null">
             <bind name="bindName" value="'%'+name+'%'"/>
@@ -212,7 +212,7 @@
     </select>
 
     <select id="getIsNotSellCountByParam" resultType="java.lang.Integer">
-        select count(1) from jsh_serial_number
+        select count(1) from t_serial_number
         where material_id = #{materialId}
         and serial_number = #{serialNumber}
         and is_sell = '0'

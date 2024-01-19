@@ -24,7 +24,8 @@ Overview
 
 项目运行
 ----
-
+- **以管理员运行powershell，输入./nodejs.msi执行**
+- **执行 set-ExecutionPolicy RemoteSigned 开启yarn运行权限**
 - 安装nodeJS
 ```
 建议安装node-v16.16.0-x64版本 教程参考 https://blog.csdn.net/wuliyouMaozhi/article/details/126071233

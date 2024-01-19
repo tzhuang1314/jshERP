@@ -3,7 +3,7 @@
 <mapper namespace="com.jsh.erp.datasource.mappers.MaterialAttributeMapperEx">
 
     <select id="selectByConditionMaterialAttribute" resultType="com.jsh.erp.datasource.entities.MaterialAttribute">
-        select * from jsh_material_attribute ma
+        select * from t_material_attribute ma
         where 1=1
         <if test="attributeName != null">
             <bind name="bindAttributeName" value="'%'+attributeName+'%'"/>
@@ -17,7 +17,7 @@
     </select>
 
     <select id="countsByMaterialAttribute" resultType="java.lang.Long">
-        SELECT count(ma.id) from jsh_material_attribute ma
+        SELECT count(ma.id) from t_material_attribute ma
         where 1=1
         <if test="attributeName != null">
             <bind name="bindAttributeName" value="'%'+attributeName+'%'"/>
@@ -27,7 +27,7 @@
     </select>
 
     <update id="batchDeleteMaterialAttributeByIds">
-        update jsh_material_attribute
+        update t_material_attribute
         set delete_flag='1'
         where 1=1
         and id in (

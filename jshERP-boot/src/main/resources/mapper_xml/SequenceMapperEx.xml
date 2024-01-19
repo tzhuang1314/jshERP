@@ -3,11 +3,11 @@
 <mapper namespace="com.jsh.erp.datasource.mappers.SequenceMapperEx">
 
     <update id="updateBuildOnlyNumber">
-        update jsh_sequence set current_val = current_val + 1 where seq_name = 'depot_number_seq'
+        update t_sequence set current_val = current_val + 1 where seq_name = 'depot_number_seq'
     </update>
 
     <select id="getBuildOnlyNumber" resultType="java.lang.Long">
-      select current_val from jsh_sequence where seq_name = 'depot_number_seq'
+      select current_val from t_sequence where seq_name = 'depot_number_seq'
     </select>
 
 </mapper>

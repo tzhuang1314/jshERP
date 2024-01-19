@@ -88,7 +88,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from jsh_material_extend
+    from t_material_extend
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -99,21 +99,21 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from jsh_material_extend
+    from t_material_extend
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from jsh_material_extend
+    delete from t_material_extend
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.jsh.erp.datasource.entities.MaterialExtendExample">
-    delete from jsh_material_extend
+    delete from t_material_extend
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.jsh.erp.datasource.entities.MaterialExtend">
-    insert into jsh_material_extend (id, material_id, bar_code, 
+    insert into t_material_extend (id, material_id, bar_code,
       commodity_unit, sku, purchase_decimal, 
       commodity_decimal, wholesale_decimal, low_decimal, 
       default_flag, create_time, create_serial, 
@@ -127,7 +127,7 @@
       #{deleteFlag,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.jsh.erp.datasource.entities.MaterialExtend">
-    insert into jsh_material_extend
+    insert into t_material_extend
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -230,13 +230,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.jsh.erp.datasource.entities.MaterialExtendExample" resultType="java.lang.Long">
-    select count(*) from jsh_material_extend
+    select count(*) from t_material_extend
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update jsh_material_extend
+    update t_material_extend
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
@@ -292,7 +292,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update jsh_material_extend
+    update t_material_extend
     set id = #{record.id,jdbcType=BIGINT},
       material_id = #{record.materialId,jdbcType=BIGINT},
       bar_code = #{record.barCode,jdbcType=VARCHAR},
@@ -314,7 +314,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.jsh.erp.datasource.entities.MaterialExtend">
-    update jsh_material_extend
+    update t_material_extend
     <set>
       <if test="materialId != null">
         material_id = #{materialId,jdbcType=BIGINT},
@@ -365,7 +365,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.jsh.erp.datasource.entities.MaterialExtend">
-    update jsh_material_extend
+    update t_material_extend
     set material_id = #{materialId,jdbcType=BIGINT},
       bar_code = #{barCode,jdbcType=VARCHAR},
       commodity_unit = #{commodityUnit,jdbcType=VARCHAR},

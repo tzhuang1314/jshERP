@@ -7,9 +7,9 @@
     </resultMap>
 
     <select id="selectByConditionTenant" parameterType="com.jsh.erp.datasource.entities.TenantExample" resultMap="ResultMapEx">
-        select jsh_tenant.*,
-        (select count(jsh_user.id) from jsh_user where jsh_user.Status='0' and jsh_user.tenant_id=jsh_tenant.tenant_id) userCount
-        FROM jsh_tenant
+        select t_tenant.*,
+        (select count(t_user.id) from t_user where t_user.Status='0' and t_user.tenant_id=t_tenant.tenant_id) userCount
+        FROM t_tenant
         where 1=1
         <if test="loginName != null">
             <bind name="bindLoginName" value="'%'+loginName+'%'"/>
@@ -33,7 +33,7 @@
     <select id="countsByTenant" resultType="java.lang.Long">
         SELECT
         COUNT(id)
-        FROM jsh_tenant
+        FROM t_tenant
         WHERE 1=1
         <if test="loginName != null">
             <bind name="bindLoginName" value="'%'+loginName+'%'"/>

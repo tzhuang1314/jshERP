@@ -3,7 +3,7 @@
 <mapper namespace="com.jsh.erp.datasource.mappers.PersonMapperEx">
     <select id="selectByConditionPerson" parameterType="com.jsh.erp.datasource.entities.PersonExample" resultMap="com.jsh.erp.datasource.mappers.PersonMapper.BaseResultMap">
         select *
-        FROM jsh_person
+        FROM t_person
         where 1=1
         <if test="name != null and name != ''">
             <bind name="bindName" value="'%'+name+'%'"/>
@@ -21,7 +21,7 @@
     <select id="countsByPerson" resultType="java.lang.Long">
         SELECT
         COUNT(id)
-        FROM jsh_person
+        FROM t_person
         WHERE 1=1
         <if test="name != null and name != ''">
             <bind name="bindName" value="'%'+name+'%'"/>
@@ -33,7 +33,7 @@
         and ifnull(delete_flag,'0') !='1'
     </select>
     <update id="batchDeletePersonByIds">
-        update jsh_person
+        update t_person
         set delete_flag='1'
         where 1=1
         and id in (

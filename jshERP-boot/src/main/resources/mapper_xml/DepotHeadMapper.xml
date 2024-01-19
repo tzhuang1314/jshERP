@@ -105,7 +105,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from jsh_depot_head
+    from t_depot_head
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -116,21 +116,21 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from jsh_depot_head
+    from t_depot_head
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from jsh_depot_head
+    delete from t_depot_head
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.jsh.erp.datasource.entities.DepotHeadExample">
-    delete from jsh_depot_head
+    delete from t_depot_head
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.jsh.erp.datasource.entities.DepotHead">
-    insert into jsh_depot_head (id, type, sub_type, 
+    insert into t_depot_head (id, type, sub_type,
       default_number, number, create_time, 
       oper_time, organ_id, creator, 
       account_id, change_amount, back_amount, 
@@ -154,7 +154,7 @@
       #{deleteFlag,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.jsh.erp.datasource.entities.DepotHead">
-    insert into jsh_depot_head
+    insert into t_depot_head
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -347,13 +347,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.jsh.erp.datasource.entities.DepotHeadExample" resultType="java.lang.Long">
-    select count(*) from jsh_depot_head
+    select count(*) from t_depot_head
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update jsh_depot_head
+    update t_depot_head
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
@@ -454,7 +454,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update jsh_depot_head
+    update t_depot_head
     set id = #{record.id,jdbcType=BIGINT},
       type = #{record.type,jdbcType=VARCHAR},
       sub_type = #{record.subType,jdbcType=VARCHAR},
@@ -491,7 +491,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.jsh.erp.datasource.entities.DepotHead">
-    update jsh_depot_head
+    update t_depot_head
     <set>
       <if test="type != null">
         type = #{type,jdbcType=VARCHAR},
@@ -587,7 +587,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.jsh.erp.datasource.entities.DepotHead">
-    update jsh_depot_head
+    update t_depot_head
     set type = #{type,jdbcType=VARCHAR},
       sub_type = #{subType,jdbcType=VARCHAR},
       default_number = #{defaultNumber,jdbcType=VARCHAR},

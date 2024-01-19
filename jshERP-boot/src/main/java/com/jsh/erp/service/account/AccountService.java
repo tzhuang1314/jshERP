@@ -215,7 +215,7 @@ public class AccountService {
     public int batchDeleteAccountByIds(String ids) throws Exception{
         int result=0;
         String [] idArray=ids.split(",");
-        //校验财务主表	jsh_accounthead
+        //校验财务主表	t_accounthead
         List<AccountHead> accountHeadList=null;
         try{
             accountHeadList = accountHeadMapperEx.getAccountHeadListByAccountIds(idArray);
@@ -228,7 +228,7 @@ public class AccountService {
             throw new BusinessRunTimeException(ExceptionConstants.DELETE_FORCE_CONFIRM_CODE,
                     ExceptionConstants.DELETE_FORCE_CONFIRM_MSG);
         }
-        //校验财务子表	jsh_accountitem
+        //校验财务子表	t_accountitem
         List<AccountItem> accountItemList=null;
         try{
             accountItemList = accountItemMapperEx.getAccountItemListByAccountIds(idArray);
@@ -241,7 +241,7 @@ public class AccountService {
             throw new BusinessRunTimeException(ExceptionConstants.DELETE_FORCE_CONFIRM_CODE,
                     ExceptionConstants.DELETE_FORCE_CONFIRM_MSG);
         }
-        //校验单据主表	jsh_depot_head
+        //校验单据主表	t_depot_head
         List<DepotHead> depotHeadList =null;
         try{
             depotHeadList = depotHeadMapperEx.getDepotHeadListByAccountIds(idArray);

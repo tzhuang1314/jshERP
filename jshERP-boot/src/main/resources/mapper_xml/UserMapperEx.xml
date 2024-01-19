@@ -12,19 +12,19 @@
 
     <select id="selectByConditionUser" parameterType="com.jsh.erp.datasource.entities.UserExample" resultMap="ResultMapEx">
         select tb.*,
-        (select r.id from jsh_user_business ub
-        left join jsh_role r on ub.value=concat("[",r.id,"]") and ifnull(r.delete_flag,'0') !='1'
+        (select r.id from t_user_business ub
+        left join t_role r on ub.value=concat("[",r.id,"]") and ifnull(r.delete_flag,'0') !='1'
         where ub.type='UserRole' and ub.key_id=tb.id limit 0,1) roleId,
-        (select r.name from jsh_user_business ub
-        left join jsh_role r on ub.value=concat("[",r.id,"]") and ifnull(r.delete_flag,'0') !='1'
+        (select r.name from t_user_business ub
+        left join t_role r on ub.value=concat("[",r.id,"]") and ifnull(r.delete_flag,'0') !='1'
         where ub.type='UserRole' and ub.key_id=tb.id limit 0,1) roleName
         from (
         select user.id, user.username, user.login_name, user.position, user.leader_flag, user.email, user.phonenum,
         user.description, user.remark,user.isystem,org.id as orgaId,user.tenant_id,user.status,org.org_abr,
         rel.user_blng_orga_dspl_seq,rel.id as orgaUserRelId
-        FROM jsh_user user
-        left join jsh_orga_user_rel rel on user.id=rel.user_id and ifnull(rel.delete_flag,'0') !='1'
-        left join jsh_organization org on rel.orga_id=org.id and ifnull(org.delete_flag,'0') !='1'
+        FROM t_user user
+        left join t_orga_user_rel rel on user.id=rel.user_id and ifnull(rel.delete_flag,'0') !='1'
+        left join t_organization org on rel.orga_id=org.id and ifnull(org.delete_flag,'0') !='1'
         where 1=1
         and user.status !='1'
         <if test="userName != null">
@@ -43,7 +43,7 @@
     </select>
     <select id="countsByUser" resultType="java.lang.Long">
         select count(user.id)
-        FROM jsh_user user
+        FROM t_user user
         where 1=1
         and user.status !='1'
         <if test="userName != null">
@@ -58,7 +58,7 @@
     <select id="getUserListByUserNameOrLoginName" resultMap="com.jsh.erp.datasource.mappers.UserMapper.BaseResultMap">
         select user.id, user.username, user.login_name, user.position, user.email, user.phonenum,
         user.description, user.remark,user.isystem
-        FROM jsh_user user
+        FROM t_user user
         where 1=1
         and ifnull(user.status,'0') not in('1','2')
         <if test="userName != null and userName != ''">
@@ -70,7 +70,7 @@
         order by user.id desc
     </select>
     <update id="batDeleteOrUpdateUser">
-        update jsh_user
+        update t_user
         set status=#{status}
         where id in (
         <foreach collection="ids" item="id" separator=",">
@@ -106,13 +106,13 @@
         select id ,	text,orgNo,sort ,iconCls,type from (
             SELECT
             org.id, org.org_abr as text,org.org_no as orgNo,org.sort as sort,null as iconCls,'0' as type
-            FROM jsh_organization org
+            FROM t_organization org
             WHERE org.org_parent_no = #{orgNo}
             and ifnull(org.org_stcd,'0') !='5'
             union all
             select
             user.id,user.username as text, null as orgNo,rel.user_blng_orga_dspl_seq as sort,'icon-user' as iconCls,'1' as type
-            from jsh_user user,jsh_orga_user_rel rel
+            from t_user user,t_orga_user_rel rel
             where
             1=1
             and user.id=rel.user_id
@@ -126,20 +126,20 @@
     <select id="getNodeTree" resultMap="BaseTreeResultMap">
         SELECT
          id, org_abr as text,org_no as orgNo,'0' as type
-        FROM jsh_organization
+        FROM t_organization
         WHERE org_parent_no = -1
         and ifnull(org_stcd,'0') !='5'
         order by sort asc
     </select>
 
     <update id="disableUserByLimit">
-        update jsh_user set Status='2'
+        update t_user set Status='2'
         where tenant_id=#{tenantId} and id!=#{tenantId} and Status!='1'
     </update>
 
     <select id="getListByOrgaId" resultType="com.jsh.erp.datasource.entities.User">
-        select u.*,our.orga_id from jsh_user u
-        left join jsh_orga_user_rel our on u.id=our.user_id
+        select u.*,our.orga_id from t_user u
+        left join t_orga_user_rel our on u.id=our.user_id
         where u.leader_flag='1' and orga_id= #{orgaId}
         <if test="id != null">
             and u.id != #{id}
@@ -147,13 +147,13 @@
     </select>
 
     <select id="getUserByWeixinOpenId" resultType="com.jsh.erp.datasource.entities.User">
-        select u.* from jsh_user u
+        select u.* from t_user u
         where u.weixin_open_id = #{weixinOpenId}
         and ifnull(u.status,'0') not in('1','2')
     </select>
 
     <update id="updateUserWithWeixinOpenId">
-        update jsh_user u set u.weixin_open_id = #{weixinOpenId}
+        update t_user u set u.weixin_open_id = #{weixinOpenId}
         where u.login_name = #{loginName} and u.password = #{password}
         and ifnull(u.status,'0') not in('1','2')
     </update>

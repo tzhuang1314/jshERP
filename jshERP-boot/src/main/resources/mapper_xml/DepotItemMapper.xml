@@ -98,7 +98,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from jsh_depot_item
+    from t_depot_item
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -109,21 +109,21 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from jsh_depot_item
+    from t_depot_item
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from jsh_depot_item
+    delete from t_depot_item
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.jsh.erp.datasource.entities.DepotItemExample">
-    delete from jsh_depot_item
+    delete from t_depot_item
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.jsh.erp.datasource.entities.DepotItem">
-    insert into jsh_depot_item (id, header_id, material_id, 
+    insert into t_depot_item (id, header_id, material_id,
       material_extend_id, material_unit, sku, 
       oper_number, basic_number, unit_price, 
       purchase_unit_price, tax_unit_price, all_price, 
@@ -143,7 +143,7 @@
       #{deleteFlag,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.jsh.erp.datasource.entities.DepotItem">
-    insert into jsh_depot_item
+    insert into t_depot_item
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -300,13 +300,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.jsh.erp.datasource.entities.DepotItemExample" resultType="java.lang.Long">
-    select count(*) from jsh_depot_item
+    select count(*) from t_depot_item
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update jsh_depot_item
+    update t_depot_item
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
@@ -389,7 +389,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update jsh_depot_item
+    update t_depot_item
     set id = #{record.id,jdbcType=BIGINT},
       header_id = #{record.headerId,jdbcType=BIGINT},
       material_id = #{record.materialId,jdbcType=BIGINT},
@@ -420,7 +420,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.jsh.erp.datasource.entities.DepotItem">
-    update jsh_depot_item
+    update t_depot_item
     <set>
       <if test="headerId != null">
         header_id = #{headerId,jdbcType=BIGINT},
@@ -498,7 +498,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.jsh.erp.datasource.entities.DepotItem">
-    update jsh_depot_item
+    update t_depot_item
     set header_id = #{headerId,jdbcType=BIGINT},
       material_id = #{materialId,jdbcType=BIGINT},
       material_extend_id = #{materialExtendId,jdbcType=BIGINT},

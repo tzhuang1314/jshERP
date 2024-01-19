@@ -166,7 +166,7 @@ public class UnitService {
     public int batchDeleteUnitByIds(String ids)throws Exception {
         int result=0;
         String [] idArray=ids.split(",");
-        //校验产品表	jsh_material
+        //校验产品表	t_material
         List<Material> materialList=null;
         try{
             materialList=materialMapperEx.getMaterialListByUnitIds(idArray);

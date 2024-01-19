@@ -54,9 +54,9 @@ public class TenantConfig {
                 Long tenantId = Tools.getTenantIdByToken(token);
                 if (tenantId!=0L) {
                     // 这里可以判断是否过滤表
-                    if ("jsh_material_property".equals(tableName) || "jsh_sequence".equals(tableName)
-                            || "jsh_function".equals(tableName) || "jsh_platform_config".equals(tableName)
-                            || "jsh_tenant".equals(tableName)) {
+                    if ("t_material_property".equals(tableName) || "t_sequence".equals(tableName)
+                            || "t_function".equals(tableName) || "t_platform_config".equals(tableName)
+                            || "t_tenant".equals(tableName)) {
                         res = true;
                     } else {
                         res = false;

@@ -80,7 +80,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from jsh_tenant
+    from t_tenant
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -91,21 +91,21 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from jsh_tenant
+    from t_tenant
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from jsh_tenant
+    delete from t_tenant
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.jsh.erp.datasource.entities.TenantExample">
-    delete from jsh_tenant
+    delete from t_tenant
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.jsh.erp.datasource.entities.Tenant">
-    insert into jsh_tenant (id, tenant_id, login_name, 
+    insert into t_tenant (id, tenant_id, login_name,
       user_num_limit, type, enabled, 
       create_time, expire_time, remark
       )
@@ -115,7 +115,7 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="com.jsh.erp.datasource.entities.Tenant">
-    insert into jsh_tenant
+    insert into t_tenant
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -176,13 +176,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.jsh.erp.datasource.entities.TenantExample" resultType="java.lang.Long">
-    select count(*) from jsh_tenant
+    select count(*) from t_tenant
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update jsh_tenant
+    update t_tenant
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
@@ -217,7 +217,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update jsh_tenant
+    update t_tenant
     set id = #{record.id,jdbcType=BIGINT},
       tenant_id = #{record.tenantId,jdbcType=BIGINT},
       login_name = #{record.loginName,jdbcType=VARCHAR},
@@ -232,7 +232,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.jsh.erp.datasource.entities.Tenant">
-    update jsh_tenant
+    update t_tenant
     <set>
       <if test="tenantId != null">
         tenant_id = #{tenantId,jdbcType=BIGINT},
@@ -262,7 +262,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.jsh.erp.datasource.entities.Tenant">
-    update jsh_tenant
+    update t_tenant
     set tenant_id = #{tenantId,jdbcType=BIGINT},
       login_name = #{loginName,jdbcType=VARCHAR},
       user_num_limit = #{userNumLimit,jdbcType=INTEGER},

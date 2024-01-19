@@ -77,7 +77,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from jsh_person
+    from t_person
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -88,21 +88,21 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from jsh_person
+    from t_person
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from jsh_person
+    delete from t_person
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.jsh.erp.datasource.entities.PersonExample">
-    delete from jsh_person
+    delete from t_person
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.jsh.erp.datasource.entities.Person">
-    insert into jsh_person (id, type, name, 
+    insert into t_person (id, type, name,
       enabled, sort, tenant_id, 
       delete_flag)
     values (#{id,jdbcType=BIGINT}, #{type,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
@@ -110,7 +110,7 @@
       #{deleteFlag,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.jsh.erp.datasource.entities.Person">
-    insert into jsh_person
+    insert into t_person
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -159,13 +159,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.jsh.erp.datasource.entities.PersonExample" resultType="java.lang.Long">
-    select count(*) from jsh_person
+    select count(*) from t_person
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update jsh_person
+    update t_person
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
@@ -194,7 +194,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update jsh_person
+    update t_person
     set id = #{record.id,jdbcType=BIGINT},
       type = #{record.type,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
@@ -207,7 +207,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.jsh.erp.datasource.entities.Person">
-    update jsh_person
+    update t_person
     <set>
       <if test="type != null">
         type = #{type,jdbcType=VARCHAR},
@@ -231,7 +231,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.jsh.erp.datasource.entities.Person">
-    update jsh_person
+    update t_person
     set type = #{type,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       enabled = #{enabled,jdbcType=BIT},

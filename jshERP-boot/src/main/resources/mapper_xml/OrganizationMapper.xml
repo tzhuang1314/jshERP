@@ -81,7 +81,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from jsh_organization
+    from t_organization
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -92,21 +92,21 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from jsh_organization
+    from t_organization
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from jsh_organization
+    delete from t_organization
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.jsh.erp.datasource.entities.OrganizationExample">
-    delete from jsh_organization
+    delete from t_organization
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.jsh.erp.datasource.entities.Organization">
-    insert into jsh_organization (id, org_no, org_abr, 
+    insert into t_organization (id, org_no, org_abr,
       parent_id, sort, remark, 
       create_time, update_time, tenant_id, 
       delete_flag)
@@ -116,7 +116,7 @@
       #{deleteFlag,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.jsh.erp.datasource.entities.Organization">
-    insert into jsh_organization
+    insert into t_organization
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -183,13 +183,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.jsh.erp.datasource.entities.OrganizationExample" resultType="java.lang.Long">
-    select count(*) from jsh_organization
+    select count(*) from t_organization
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update jsh_organization
+    update t_organization
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
@@ -227,7 +227,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update jsh_organization
+    update t_organization
     set id = #{record.id,jdbcType=BIGINT},
       org_no = #{record.orgNo,jdbcType=VARCHAR},
       org_abr = #{record.orgAbr,jdbcType=VARCHAR},
@@ -243,7 +243,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.jsh.erp.datasource.entities.Organization">
-    update jsh_organization
+    update t_organization
     <set>
       <if test="orgNo != null">
         org_no = #{orgNo,jdbcType=VARCHAR},
@@ -276,7 +276,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.jsh.erp.datasource.entities.Organization">
-    update jsh_organization
+    update t_organization
     set org_no = #{orgNo,jdbcType=VARCHAR},
       org_abr = #{orgAbr,jdbcType=VARCHAR},
       parent_id = #{parentId,jdbcType=BIGINT},

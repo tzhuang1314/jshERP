@@ -78,7 +78,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from jsh_log
+    from t_log
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -89,21 +89,21 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from jsh_log
+    from t_log
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from jsh_log
+    delete from t_log
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.jsh.erp.datasource.entities.LogExample">
-    delete from jsh_log
+    delete from t_log
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.jsh.erp.datasource.entities.Log">
-    insert into jsh_log (id, user_id, operation, 
+    insert into t_log (id, user_id, operation,
       client_ip, create_time, status, 
       content, tenant_id)
     values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{operation,jdbcType=VARCHAR}, 
@@ -111,7 +111,7 @@
       #{content,jdbcType=VARCHAR}, #{tenantId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.jsh.erp.datasource.entities.Log">
-    insert into jsh_log
+    insert into t_log
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -166,13 +166,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.jsh.erp.datasource.entities.LogExample" resultType="java.lang.Long">
-    select count(*) from jsh_log
+    select count(*) from t_log
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update jsh_log
+    update t_log
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
@@ -204,7 +204,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update jsh_log
+    update t_log
     set id = #{record.id,jdbcType=BIGINT},
       user_id = #{record.userId,jdbcType=BIGINT},
       operation = #{record.operation,jdbcType=VARCHAR},
@@ -218,7 +218,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.jsh.erp.datasource.entities.Log">
-    update jsh_log
+    update t_log
     <set>
       <if test="userId != null">
         user_id = #{userId,jdbcType=BIGINT},
@@ -245,7 +245,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.jsh.erp.datasource.entities.Log">
-    update jsh_log
+    update t_log
     set user_id = #{userId,jdbcType=BIGINT},
       operation = #{operation,jdbcType=VARCHAR},
       client_ip = #{clientIp,jdbcType=VARCHAR},

@@ -82,7 +82,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from jsh_material_category
+    from t_material_category
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -93,21 +93,21 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from jsh_material_category
+    from t_material_category
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from jsh_material_category
+    delete from t_material_category
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.jsh.erp.datasource.entities.MaterialCategoryExample">
-    delete from jsh_material_category
+    delete from t_material_category
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.jsh.erp.datasource.entities.MaterialCategory">
-    insert into jsh_material_category (id, name, category_level, 
+    insert into t_material_category (id, name, category_level,
       parent_id, sort, serial_no, 
       remark, create_time, update_time, 
       tenant_id, delete_flag)
@@ -117,7 +117,7 @@
       #{tenantId,jdbcType=BIGINT}, #{deleteFlag,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.jsh.erp.datasource.entities.MaterialCategory">
-    insert into jsh_material_category
+    insert into t_material_category
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -190,13 +190,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.jsh.erp.datasource.entities.MaterialCategoryExample" resultType="java.lang.Long">
-    select count(*) from jsh_material_category
+    select count(*) from t_material_category
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update jsh_material_category
+    update t_material_category
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
@@ -237,7 +237,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update jsh_material_category
+    update t_material_category
     set id = #{record.id,jdbcType=BIGINT},
       name = #{record.name,jdbcType=VARCHAR},
       category_level = #{record.categoryLevel,jdbcType=SMALLINT},
@@ -254,7 +254,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.jsh.erp.datasource.entities.MaterialCategory">
-    update jsh_material_category
+    update t_material_category
     <set>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
@@ -290,7 +290,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.jsh.erp.datasource.entities.MaterialCategory">
-    update jsh_material_category
+    update t_material_category
     set name = #{name,jdbcType=VARCHAR},
       category_level = #{categoryLevel,jdbcType=SMALLINT},
       parent_id = #{parentId,jdbcType=BIGINT},

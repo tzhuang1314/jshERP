@@ -7,8 +7,8 @@
 
     <select id="selectByConditionDepot" parameterType="com.jsh.erp.datasource.entities.DepotExample" resultMap="ResultMapEx">
         select dep.*,usr.username as principalName
-        FROM jsh_depot dep
-        left join jsh_user usr on usr.id=dep.principal and ifnull(usr.status,'0') not in('1','2')
+        FROM t_depot dep
+        left join t_user usr on usr.id=dep.principal and ifnull(usr.status,'0') not in('1','2')
         where 1=1
         <if test="name != null">
             <bind name="bindName" value="'%'+name+'%'"/>
@@ -30,8 +30,8 @@
     <select id="countsByDepot" resultType="java.lang.Long">
         SELECT
         COUNT(dep.id)
-        FROM jsh_depot dep
-        left join jsh_user usr on usr.id=dep.principal and ifnull(usr.status,'0') not in('1','2')
+        FROM t_depot dep
+        left join t_user usr on usr.id=dep.principal and ifnull(usr.status,'0') not in('1','2')
         WHERE 1=1
         <if test="name != null">
             <bind name="bindName" value="'%'+name+'%'"/>
@@ -48,7 +48,7 @@
     </select>
 
     <update id="batchDeleteDepotByIds">
-        update jsh_depot
+        update t_depot
         set delete_Flag='1'
         where 1=1
         and id in (

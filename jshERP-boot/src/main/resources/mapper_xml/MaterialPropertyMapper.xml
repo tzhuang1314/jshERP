@@ -76,7 +76,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from jsh_material_property
+    from t_material_property
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -87,21 +87,21 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from jsh_material_property
+    from t_material_property
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from jsh_material_property
+    delete from t_material_property
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.jsh.erp.datasource.entities.MaterialPropertyExample">
-    delete from jsh_material_property
+    delete from t_material_property
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.jsh.erp.datasource.entities.MaterialProperty">
-    insert into jsh_material_property (id, native_name, enabled, 
+    insert into t_material_property (id, native_name, enabled,
       sort, another_name, delete_flag
       )
     values (#{id,jdbcType=BIGINT}, #{nativeName,jdbcType=VARCHAR}, #{enabled,jdbcType=BIT}, 
@@ -109,7 +109,7 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="com.jsh.erp.datasource.entities.MaterialProperty">
-    insert into jsh_material_property
+    insert into t_material_property
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -152,13 +152,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.jsh.erp.datasource.entities.MaterialPropertyExample" resultType="java.lang.Long">
-    select count(*) from jsh_material_property
+    select count(*) from t_material_property
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update jsh_material_property
+    update t_material_property
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
@@ -184,7 +184,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update jsh_material_property
+    update t_material_property
     set id = #{record.id,jdbcType=BIGINT},
       native_name = #{record.nativeName,jdbcType=VARCHAR},
       enabled = #{record.enabled,jdbcType=BIT},
@@ -196,7 +196,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.jsh.erp.datasource.entities.MaterialProperty">
-    update jsh_material_property
+    update t_material_property
     <set>
       <if test="nativeName != null">
         native_name = #{nativeName,jdbcType=VARCHAR},
@@ -217,7 +217,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.jsh.erp.datasource.entities.MaterialProperty">
-    update jsh_material_property
+    update t_material_property
     set native_name = #{nativeName,jdbcType=VARCHAR},
       enabled = #{enabled,jdbcType=BIT},
       sort = #{sort,jdbcType=VARCHAR},

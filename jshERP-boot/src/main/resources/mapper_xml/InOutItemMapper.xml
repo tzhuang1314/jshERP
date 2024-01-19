@@ -78,7 +78,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from jsh_in_out_item
+    from t_in_out_item
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -89,21 +89,21 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from jsh_in_out_item
+    from t_in_out_item
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from jsh_in_out_item
+    delete from t_in_out_item
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.jsh.erp.datasource.entities.InOutItemExample">
-    delete from jsh_in_out_item
+    delete from t_in_out_item
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.jsh.erp.datasource.entities.InOutItem">
-    insert into jsh_in_out_item (id, name, type, 
+    insert into t_in_out_item (id, name, type,
       remark, enabled, sort, 
       tenant_id, delete_flag)
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
@@ -111,7 +111,7 @@
       #{tenantId,jdbcType=BIGINT}, #{deleteFlag,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.jsh.erp.datasource.entities.InOutItem">
-    insert into jsh_in_out_item
+    insert into t_in_out_item
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -166,13 +166,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.jsh.erp.datasource.entities.InOutItemExample" resultType="java.lang.Long">
-    select count(*) from jsh_in_out_item
+    select count(*) from t_in_out_item
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update jsh_in_out_item
+    update t_in_out_item
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
@@ -204,7 +204,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update jsh_in_out_item
+    update t_in_out_item
     set id = #{record.id,jdbcType=BIGINT},
       name = #{record.name,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=VARCHAR},
@@ -218,7 +218,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.jsh.erp.datasource.entities.InOutItem">
-    update jsh_in_out_item
+    update t_in_out_item
     <set>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
@@ -245,7 +245,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.jsh.erp.datasource.entities.InOutItem">
-    update jsh_in_out_item
+    update t_in_out_item
     set name = #{name,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},

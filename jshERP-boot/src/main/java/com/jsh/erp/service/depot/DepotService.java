@@ -189,7 +189,7 @@ public class DepotService {
     public int batchDeleteDepotByIds(String ids)throws Exception {
         int result=0;
         String [] idArray=ids.split(",");
-        //校验单据子表	jsh_depot_item
+        //校验单据子表	t_depot_item
         List<DepotItem> depotItemList=null;
         try{
             depotItemList = depotItemMapperEx.getDepotItemListListByDepotIds(idArray);

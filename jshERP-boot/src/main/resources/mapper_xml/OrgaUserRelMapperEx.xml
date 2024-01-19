@@ -5,7 +5,7 @@
   </resultMap>
   <insert id="addOrgaUserRel" parameterType="com.jsh.erp.datasource.entities.OrgaUserRel"
           useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-    insert into jsh_orga_user_rel (orga_id, user_id,
+    insert into t_orga_user_rel (orga_id, user_id,
     user_blng_orga_dspl_seq, delete_flag, create_time,
     creator, update_time, updater
     )
@@ -15,7 +15,7 @@
     )
   </insert>
   <update id="updateOrgaUserRel" parameterType="com.jsh.erp.datasource.entities.OrgaUserRel" >
-    update jsh_orga_user_rel
+    update t_orga_user_rel
     <set >
       <if test="orgaId != null" >
         orga_id = #{orgaId},

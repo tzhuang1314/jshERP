@@ -76,7 +76,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from jsh_material_current_stock
+    from t_material_current_stock
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -87,21 +87,21 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from jsh_material_current_stock
+    from t_material_current_stock
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from jsh_material_current_stock
+    delete from t_material_current_stock
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.jsh.erp.datasource.entities.MaterialCurrentStockExample">
-    delete from jsh_material_current_stock
+    delete from t_material_current_stock
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.jsh.erp.datasource.entities.MaterialCurrentStock">
-    insert into jsh_material_current_stock (id, material_id, depot_id, 
+    insert into t_material_current_stock (id, material_id, depot_id,
       current_number, tenant_id, delete_flag
       )
     values (#{id,jdbcType=BIGINT}, #{materialId,jdbcType=BIGINT}, #{depotId,jdbcType=BIGINT}, 
@@ -109,7 +109,7 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="com.jsh.erp.datasource.entities.MaterialCurrentStock">
-    insert into jsh_material_current_stock
+    insert into t_material_current_stock
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -152,13 +152,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.jsh.erp.datasource.entities.MaterialCurrentStockExample" resultType="java.lang.Long">
-    select count(*) from jsh_material_current_stock
+    select count(*) from t_material_current_stock
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update jsh_material_current_stock
+    update t_material_current_stock
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
@@ -184,7 +184,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update jsh_material_current_stock
+    update t_material_current_stock
     set id = #{record.id,jdbcType=BIGINT},
       material_id = #{record.materialId,jdbcType=BIGINT},
       depot_id = #{record.depotId,jdbcType=BIGINT},
@@ -196,7 +196,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.jsh.erp.datasource.entities.MaterialCurrentStock">
-    update jsh_material_current_stock
+    update t_material_current_stock
     <set>
       <if test="materialId != null">
         material_id = #{materialId,jdbcType=BIGINT},
@@ -217,7 +217,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.jsh.erp.datasource.entities.MaterialCurrentStock">
-    update jsh_material_current_stock
+    update t_material_current_stock
     set material_id = #{materialId,jdbcType=BIGINT},
       depot_id = #{depotId,jdbcType=BIGINT},
       current_number = #{currentNumber,jdbcType=DECIMAL},

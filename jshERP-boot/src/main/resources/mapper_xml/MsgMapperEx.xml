@@ -5,7 +5,7 @@
     </resultMap>
     <select id="selectByConditionMsg" parameterType="com.jsh.erp.datasource.entities.MsgExample" resultMap="ResultExMap">
         SELECT *
-        FROM jsh_msg
+        FROM t_msg
         WHERE 1=1
         and ifnull(delete_Flag,'0') !='1'
         <if test="userId != null">
@@ -24,7 +24,7 @@
     <select id="countsByMsg" resultType="java.lang.Long">
         SELECT
         COUNT(id)
-        FROM jsh_msg
+        FROM t_msg
         WHERE 1=1
         and ifnull(delete_Flag,'0') !='1'
         <if test="userId != null">
@@ -37,7 +37,7 @@
     </select>
 
     <update id="batchDeleteMsgByIds">
-        update jsh_msg
+        update t_msg
         set delete_Flag='1'
         where 1=1
         and id in (
@@ -50,7 +50,7 @@
     <select id="getMsgCountByStatus" resultType="java.lang.Long">
         SELECT
         COUNT(id)
-        FROM jsh_msg
+        FROM t_msg
         WHERE 1=1
         and ifnull(delete_Flag,'0') !='1'
         <if test="status != null">

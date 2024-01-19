@@ -48,7 +48,7 @@ import java.util.List;
 
 @Service
 public class SystemConfigService {
-    private Logger logger = LoggerFactory.getLogger(SystemConfigService.class);
+    private static final Logger logger = LoggerFactory.getLogger(SystemConfigService.class);
 
     @Resource
     private SystemConfigMapper systemConfigMapper;

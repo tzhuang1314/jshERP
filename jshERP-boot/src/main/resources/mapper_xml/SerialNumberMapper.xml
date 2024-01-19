@@ -85,7 +85,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from jsh_serial_number
+    from t_serial_number
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -96,21 +96,21 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from jsh_serial_number
+    from t_serial_number
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from jsh_serial_number
+    delete from t_serial_number
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.jsh.erp.datasource.entities.SerialNumberExample">
-    delete from jsh_serial_number
+    delete from t_serial_number
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.jsh.erp.datasource.entities.SerialNumber">
-    insert into jsh_serial_number (id, material_id, depot_id, 
+    insert into t_serial_number (id, material_id, depot_id,
       serial_number, is_sell, remark, 
       delete_flag, create_time, creator, 
       update_time, updater, in_bill_no, 
@@ -122,7 +122,7 @@
       #{outBillNo,jdbcType=VARCHAR}, #{tenantId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.jsh.erp.datasource.entities.SerialNumber">
-    insert into jsh_serial_number
+    insert into t_serial_number
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -213,13 +213,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.jsh.erp.datasource.entities.SerialNumberExample" resultType="java.lang.Long">
-    select count(*) from jsh_serial_number
+    select count(*) from t_serial_number
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update jsh_serial_number
+    update t_serial_number
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
@@ -269,7 +269,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update jsh_serial_number
+    update t_serial_number
     set id = #{record.id,jdbcType=BIGINT},
       material_id = #{record.materialId,jdbcType=BIGINT},
       depot_id = #{record.depotId,jdbcType=BIGINT},
@@ -289,7 +289,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.jsh.erp.datasource.entities.SerialNumber">
-    update jsh_serial_number
+    update t_serial_number
     <set>
       <if test="materialId != null">
         material_id = #{materialId,jdbcType=BIGINT},
@@ -334,7 +334,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.jsh.erp.datasource.entities.SerialNumber">
-    update jsh_serial_number
+    update t_serial_number
     set material_id = #{materialId,jdbcType=BIGINT},
       depot_id = #{depotId,jdbcType=BIGINT},
       serial_number = #{serialNumber,jdbcType=VARCHAR},

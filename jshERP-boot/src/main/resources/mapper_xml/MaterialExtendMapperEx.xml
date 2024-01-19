@@ -7,7 +7,7 @@
 
     <select id="getDetailList" parameterType="com.jsh.erp.datasource.entities.MaterialExtendExample" resultMap="ResultMapList">
         select DISTINCT d.Id,d.bar_code,d.commodity_unit,d.sku,d.commodity_decimal,d.purchase_decimal,d.wholesale_decimal,d.low_decimal
-        from jsh_material_extend d
+        from t_material_extend d
         where d.material_id = #{materialId}
         and ifnull(d.delete_Flag,'0') !='1'
         order by d.default_flag desc,d.id asc
@@ -16,7 +16,7 @@
     <select id="getMaxTimeByTenantAndTime" resultType="java.lang.Long">
         select max(update_time) from
         (
-        select update_time from jsh_material_extend
+        select update_time from t_material_extend
         where 1=1
         <if test="lastTime != null">
             and update_time > #{lastTime}
@@ -31,7 +31,7 @@
     <select id="getListByMId" resultType="com.jsh.erp.datasource.entities.MaterialExtend">
         select
         <include refid="com.jsh.erp.datasource.mappers.MaterialExtendMapper.Base_Column_List" />
-        from jsh_material_extend
+        from t_material_extend
         where 1=1
         and ifnull(delete_Flag,'0') !='1'
         and material_id in (
@@ -43,7 +43,7 @@
     </select>
 
     <update id="batchDeleteMaterialExtendByIds">
-        update jsh_material_extend
+        update t_material_extend
         set delete_Flag='1'
         where 1=1
         and ifnull(delete_Flag,'0') !='1'
@@ -55,7 +55,7 @@
     </update>
 
     <update id="batchDeleteMaterialExtendByMIds">
-        update jsh_material_extend
+        update t_material_extend
         set delete_Flag='1'
         where 1=1
         and ifnull(delete_Flag,'0') !='1'
@@ -67,7 +67,7 @@
     </update>
 
     <update id="specialUpdatePrice" parameterType="com.jsh.erp.datasource.entities.MaterialExtend">
-        update jsh_material_extend
+        update t_material_extend
         set purchase_decimal = #{purchaseDecimal,jdbcType=DECIMAL},
             commodity_decimal = #{commodityDecimal,jdbcType=DECIMAL},
             wholesale_decimal = #{wholesaleDecimal,jdbcType=DECIMAL},

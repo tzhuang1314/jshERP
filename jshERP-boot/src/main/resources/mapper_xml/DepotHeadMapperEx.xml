@@ -55,10 +55,10 @@
     <select id="selectByConditionDepotHead" parameterType="com.jsh.erp.datasource.entities.DepotHeadExample" resultMap="ResultMapEx">
         select jdh.*, s.supplier OrganName, u.username userName, a.name AccountName
         from (select dh.id
-        from jsh_depot_head dh
-        left join jsh_depot_item di on dh.id = di.header_id and ifnull(di.delete_flag,'0') !='1'
-        left join jsh_material m on di.material_id = m.id and ifnull(m.delete_flag,'0') !='1'
-        left join jsh_material_extend me on di.material_extend_id = me.id and ifnull(me.delete_flag,'0') !='1'
+        from t_depot_head dh
+        left join t_depot_item di on dh.id = di.header_id and ifnull(di.delete_flag,'0') !='1'
+        left join t_material m on di.material_id = m.id and ifnull(m.delete_flag,'0') !='1'
+        left join t_material_extend me on di.material_extend_id = me.id and ifnull(me.delete_flag,'0') !='1'
         where 1=1
         <if test="type != null">
             and dh.type=#{type}
@@ -153,20 +153,20 @@
         <if test="offset != null and rows != null">
             limit #{offset},#{rows}
         </if>) tb
-        left join jsh_depot_head jdh on jdh.id=tb.id and ifnull(jdh.delete_flag,'0') !='1'
-        left join jsh_supplier s on jdh.organ_id=s.id and ifnull(s.delete_flag,'0') !='1'
-        left join jsh_user u on jdh.creator=u.id and ifnull(u.Status,'0') !='1'
-        left join jsh_account a on jdh.account_id=a.id and ifnull(a.delete_flag,'0') !='1'
+        left join t_depot_head jdh on jdh.id=tb.id and ifnull(jdh.delete_flag,'0') !='1'
+        left join t_supplier s on jdh.organ_id=s.id and ifnull(s.delete_flag,'0') !='1'
+        left join t_user u on jdh.creator=u.id and ifnull(u.Status,'0') !='1'
+        left join t_account a on jdh.account_id=a.id and ifnull(a.delete_flag,'0') !='1'
         order by jdh.id desc
     </select>
 
     <select id="countsByDepotHead" resultType="java.lang.Long">
         select
         count(1) from
-        (select distinct dh.id from jsh_depot_head dh
-        left join jsh_depot_item di on dh.Id = di.header_id and ifnull(di.delete_flag,'0') !='1'
-        left join jsh_material m on di.material_id = m.Id and ifnull(m.delete_Flag,'0') !='1'
-        left join jsh_material_extend me on di.material_extend_id = me.id and ifnull(me.delete_flag,'0') !='1'
+        (select distinct dh.id from t_depot_head dh
+        left join t_depot_item di on dh.Id = di.header_id and ifnull(di.delete_flag,'0') !='1'
+        left join t_material m on di.material_id = m.Id and ifnull(m.delete_Flag,'0') !='1'
+        left join t_material_extend me on di.material_extend_id = me.id and ifnull(me.delete_flag,'0') !='1'
         WHERE 1=1
         <if test="type != null">
             and dh.type=#{type}
@@ -256,23 +256,23 @@
     </select>
 
     <select id="findMaterialsListMapByHeaderIdList" resultType="com.jsh.erp.datasource.vo.MaterialsListVo">
-        select jsh_depot_item.header_id, group_concat(concat(jsh_material.name,' ',ifnull(jsh_material.standard,''),' ',
-            ifnull(jsh_material.model,''),' ',ifnull(jsh_material.color,''))) as materialsList
-        from jsh_depot_item
-        left join jsh_material on jsh_depot_item.material_id = jsh_material.Id and ifnull(jsh_material.delete_Flag,'0') !='1'
+        select t_depot_item.header_id, group_concat(concat(t_material.name,' ',ifnull(t_material.standard,''),' ',
+            ifnull(t_material.model,''),' ',ifnull(t_material.color,''))) as materialsList
+        from t_depot_item
+        left join t_material on t_depot_item.material_id = t_material.Id and ifnull(t_material.delete_Flag,'0') !='1'
         where 1=1
         <if test="idList.size()>0">
-            and jsh_depot_item.header_id in
+            and t_depot_item.header_id in
             <foreach collection="idList" item="item" index="index" separator="," open="(" close=")">
                 #{item}
             </foreach>
         </if>
-        and ifnull(jsh_depot_item.delete_flag,'0') !='1'
-        group by jsh_depot_item.header_id
+        and ifnull(t_depot_item.delete_flag,'0') !='1'
+        group by t_depot_item.header_id
     </select>
 
     <select id="getMaterialCountListByHeaderIdList" resultType="com.jsh.erp.datasource.vo.MaterialCountVo">
-        select header_id, sum(oper_number) materialCount from jsh_depot_item
+        select header_id, sum(oper_number) materialCount from t_depot_item
         where 1=1
         <if test="idList.size()>0">
             and header_id in
@@ -289,12 +289,12 @@
         di.oper_number operNumber,di.all_price allPrice, ifnull(di.tax_rate,0) taxRate, ifnull(di.tax_money,0) taxMoney, ifnull(di.tax_last_money,0) taxLastMoney,
         s.supplier sname,d.dname dname, date_format(dh.oper_time, '%Y-%m-%d') operTime, concat(dh.sub_type,dh.type) as newType,
         concat_ws('  ',dh.remark,di.remark) as newRemark
-        from jsh_depot_head dh
-        left join jsh_depot_item di on di.header_id=dh.id and ifnull(di.delete_flag,'0') !='1'
-        left join jsh_material m on m.id=di.material_id and ifnull(m.delete_flag,'0') !='1'
-        left join jsh_material_extend me on me.id=di.material_extend_id and ifnull(me.delete_Flag,'0') !='1'
-        left join jsh_supplier s on s.id=dh.organ_id and ifnull(s.delete_Flag,'0') !='1'
-        left join (select id,name as dName,delete_Flag from jsh_depot ) d on d.id=di.depot_id and ifnull(d.delete_Flag,'0') !='1'
+        from t_depot_head dh
+        left join t_depot_item di on di.header_id=dh.id and ifnull(di.delete_flag,'0') !='1'
+        left join t_material m on m.id=di.material_id and ifnull(m.delete_flag,'0') !='1'
+        left join t_material_extend me on me.id=di.material_extend_id and ifnull(me.delete_Flag,'0') !='1'
+        left join t_supplier s on s.id=dh.organ_id and ifnull(s.delete_Flag,'0') !='1'
+        left join (select id,name as dName,delete_Flag from t_depot ) d on d.id=di.depot_id and ifnull(d.delete_Flag,'0') !='1'
         where dh.oper_time >=#{beginTime} and dh.oper_time &lt;=#{endTime}
         <if test="oId != null">
             and dh.organ_id = #{oId}
@@ -358,12 +358,12 @@
 
     <select id="findInOutDetailCount" resultType="java.lang.Integer">
         select count(1)
-        from jsh_depot_head dh
-        left join jsh_depot_item di on di.header_id=dh.id and ifnull(di.delete_flag,'0') !='1'
-        left join jsh_material m on m.id=di.material_id and ifnull(m.delete_Flag,'0') !='1'
-        left join jsh_material_extend me on me.id=di.material_extend_id and ifnull(me.delete_Flag,'0') !='1'
-        left join jsh_supplier s on s.id=dh.organ_id and ifnull(s.delete_Flag,'0') !='1'
-        left join (select id,name as dName,delete_Flag from jsh_depot) d on d.id=di.depot_id and ifnull(d.delete_Flag,'0') !='1'
+        from t_depot_head dh
+        left join t_depot_item di on di.header_id=dh.id and ifnull(di.delete_flag,'0') !='1'
+        left join t_material m on m.id=di.material_id and ifnull(m.delete_Flag,'0') !='1'
+        left join t_material_extend me on me.id=di.material_extend_id and ifnull(me.delete_Flag,'0') !='1'
+        left join t_supplier s on s.id=dh.organ_id and ifnull(s.delete_Flag,'0') !='1'
+        left join (select id,name as dName,delete_Flag from t_depot) d on d.id=di.depot_id and ifnull(d.delete_Flag,'0') !='1'
         where dh.oper_time >=#{beginTime} and dh.oper_time &lt;=#{endTime}
         <if test="oId != null">
             and dh.organ_id = #{oId}
@@ -420,12 +420,12 @@
         select di.material_id materialId, me.bar_code barCode, m.name mName,m.model,m.standard,mc.name categoryName,concat_ws('', m.unit, u.basic_unit) materialUnit,
         sum(di.basic_number) numSum,
         sum(di.all_price) priceSum
-        from jsh_depot_head dh
-        left join jsh_depot_item di on dh.id=di.header_id and ifnull(di.delete_flag,'0') !='1'
-        left join jsh_material m on m.id=di.material_id and ifnull(m.delete_flag,'0') !='1'
-        left join jsh_unit u on m.unit_id=u.id and ifnull(u.delete_Flag,'0') !='1'
-        left join jsh_material_extend me on me.material_id=m.id and ifnull(me.delete_Flag,'0') !='1'
-        left join jsh_material_category mc on m.category_id=mc.Id and ifnull(mc.delete_flag,'0') !='1'
+        from t_depot_head dh
+        left join t_depot_item di on dh.id=di.header_id and ifnull(di.delete_flag,'0') !='1'
+        left join t_material m on m.id=di.material_id and ifnull(m.delete_flag,'0') !='1'
+        left join t_unit u on m.unit_id=u.id and ifnull(u.delete_Flag,'0') !='1'
+        left join t_material_extend me on me.material_id=m.id and ifnull(me.delete_Flag,'0') !='1'
+        left join t_material_category mc on m.category_id=mc.Id and ifnull(mc.delete_flag,'0') !='1'
         where me.default_flag=1
         and (dh.type=#{type} or dh.sub_type='调拨') and dh.oper_time >=#{beginTime} and dh.oper_time &lt;=#{endTime}
         <if test="oId != null">
@@ -491,10 +491,10 @@
 
     <select id="findInOutMaterialCountTotal" resultType="java.lang.Integer">
         select count(1) from
-        (select di.material_id from jsh_depot_head dh
-        left join jsh_depot_item di on dh.id=di.header_id  and ifnull(di.delete_flag,'0') !='1'
-        left join jsh_material m on m.id=di.material_id and ifnull(m.delete_flag,'0') !='1'
-        left join jsh_material_extend me on me.material_id=m.id and ifnull(me.delete_flag,'0') !='1'
+        (select di.material_id from t_depot_head dh
+        left join t_depot_item di on dh.id=di.header_id  and ifnull(di.delete_flag,'0') !='1'
+        left join t_material m on m.id=di.material_id and ifnull(m.delete_flag,'0') !='1'
+        left join t_material_extend me on me.material_id=m.id and ifnull(me.delete_flag,'0') !='1'
         where me.default_flag=1
         and (dh.type=#{type} or dh.sub_type='调拨') and dh.oper_time >=#{beginTime} and dh.oper_time &lt;=#{endTime}
         <if test="oId != null">
@@ -553,13 +553,13 @@
         select dh.number,me.bar_code barCode, m.name mname,m.model,m.standard,di.unit_price unitPrice,di.material_unit as mUnit,
                di.oper_number operNumber,di.all_price allPrice,sname, d.dName dname,date_format(dh.oper_time, '%Y-%m-%d') operTime,
                concat(dh.sub_type,dh.type) as newType, concat_ws('  ',dh.remark,di.remark) as newRemark
-        from jsh_depot_head dh
-        left join jsh_depot_item di on di.header_id=dh.id and ifnull(di.delete_flag,'0') !='1'
-        left join jsh_material m on m.id=di.material_id and ifnull(m.delete_flag,'0') !='1'
-        left join jsh_material_extend me on me.id=di.material_extend_id and ifnull(me.delete_Flag,'0') !='1'
-        left join (select id,name as dName,delete_Flag from jsh_depot ) d on d.id=di.depot_id and ifnull(d.delete_Flag,'0') !='1'
+        from t_depot_head dh
+        left join t_depot_item di on di.header_id=dh.id and ifnull(di.delete_flag,'0') !='1'
+        left join t_material m on m.id=di.material_id and ifnull(m.delete_flag,'0') !='1'
+        left join t_material_extend me on me.id=di.material_extend_id and ifnull(me.delete_Flag,'0') !='1'
+        left join (select id,name as dName,delete_Flag from t_depot ) d on d.id=di.depot_id and ifnull(d.delete_Flag,'0') !='1'
         <!-- 调出仓库名查询 -->
-        left join (select id as aid,name as sname,delete_Flag as adelete_Flag from jsh_depot ) ddd on ddd.aid=di.another_depot_id and ifnull(ddd.adelete_Flag,'0') !='1'
+        left join (select id as aid,name as sname,delete_Flag as adelete_Flag from t_depot ) ddd on ddd.aid=di.another_depot_id and ifnull(ddd.adelete_Flag,'0') !='1'
         where dh.oper_time >=#{beginTime} and dh.oper_time &lt;=#{endTime}
         <if test="depotFList.size()>0">
             and di.depot_id in
@@ -612,11 +612,11 @@
 
     <select id="findAllocationDetailCount" resultType="java.lang.Integer">
         select count(1)
-        from jsh_depot_head dh
-        left join jsh_depot_item di on di.header_id=dh.id and ifnull(di.delete_flag,'0') !='1'
-        left join jsh_material m on m.id=di.material_id and ifnull(m.delete_Flag,'0') !='1'
-        left join jsh_material_extend me on me.id=di.material_extend_id and ifnull(me.delete_Flag,'0') !='1'
-        left join (select id,name as dName,delete_Flag from jsh_depot) d on d.id=di.depot_id and ifnull(d.delete_Flag,'0') !='1'
+        from t_depot_head dh
+        left join t_depot_item di on di.header_id=dh.id and ifnull(di.delete_flag,'0') !='1'
+        left join t_material m on m.id=di.material_id and ifnull(m.delete_Flag,'0') !='1'
+        left join t_material_extend me on me.id=di.material_extend_id and ifnull(me.delete_Flag,'0') !='1'
+        left join (select id,name as dName,delete_Flag from t_depot) d on d.id=di.depot_id and ifnull(d.delete_Flag,'0') !='1'
         where dh.oper_time >=#{beginTime} and dh.oper_time &lt;=#{endTime}
         <if test="depotFList.size()>0">
             and di.depot_id in
@@ -666,7 +666,7 @@
             -- 上期欠款金额
             (select
             ifnull(sum(dh.discount_last_money),0)+ifnull(sum(dh.other_money),0)-ifnull(sum(dh.deposit),0)-abs(ifnull(sum(dh.change_amount),0))
-            from jsh_depot_head dh
+            from t_depot_head dh
             where dh.organ_id=s.id
             and dh.type=#{type} and dh.sub_type=#{subType}
             and dh.oper_time &lt;= #{beginTime}
@@ -674,21 +674,21 @@
             -- 上期退货的欠款金额
             (select
             ifnull(sum(dh.discount_last_money),0)+ifnull(sum(dh.other_money),0)-ifnull(sum(dh.deposit),0)-abs(ifnull(sum(dh.change_amount),0))
-            from jsh_depot_head dh
+            from t_depot_head dh
             where dh.organ_id=s.id
             and dh.type=#{typeBack} and dh.sub_type=#{subTypeBack}
             and dh.oper_time &lt;= #{beginTime}
             and ifnull(dh.delete_flag,'0') !='1') preReturnDebtMoney,
             -- 上期收付款
-            (select (case when ah.type='收款' then ifnull(sum(ai.each_amount),0) else 0-ifnull(sum(ai.each_amount),0) end) from jsh_account_item ai
-            left join jsh_account_head ah on ai.header_id=ah.id and ifnull(ah.delete_flag,'0') !='1'
+            (select (case when ah.type='收款' then ifnull(sum(ai.each_amount),0) else 0-ifnull(sum(ai.each_amount),0) end) from u_account_item ai
+            left join u_account_head ah on ai.header_id=ah.id and ifnull(ah.delete_flag,'0') !='1'
             where ah.organ_id=s.id and ah.type=#{billType}
             and ah.bill_time &lt;= #{beginTime}
             and ifnull(ai.delete_flag,'0') !='1') preBackMoney,
             -- 本期欠款
             (select
             ifnull(sum(dh.discount_last_money),0)+ifnull(sum(dh.other_money),0)-ifnull(sum(dh.deposit),0)-abs(ifnull(sum(dh.change_amount),0))
-            from jsh_depot_head dh
+            from t_depot_head dh
             where dh.organ_id=s.id
             and dh.type=#{type} and dh.sub_type=#{subType}
             and dh.oper_time>#{beginTime} and dh.oper_time &lt;= #{endTime}
@@ -696,18 +696,18 @@
             -- 本期退货的欠款金额
             (select
             ifnull(sum(dh.discount_last_money),0)+ifnull(sum(dh.other_money),0)-ifnull(sum(dh.deposit),0)-abs(ifnull(sum(dh.change_amount),0))
-            from jsh_depot_head dh
+            from t_depot_head dh
             where dh.organ_id=s.id
             and dh.type=#{typeBack} and dh.sub_type=#{subTypeBack}
             and dh.oper_time>#{beginTime} and dh.oper_time &lt;= #{endTime}
             and ifnull(dh.delete_flag,'0') !='1') returnDebtMoney,
             -- 本期收付款
-            (select (case when ah.type='收款' then ifnull(sum(ai.each_amount),0) else 0-ifnull(sum(ai.each_amount),0) end) from jsh_account_item ai
-            left join jsh_account_head ah on ai.header_id=ah.id and ifnull(ah.delete_flag,'0') !='1'
+            (select (case when ah.type='收款' then ifnull(sum(ai.each_amount),0) else 0-ifnull(sum(ai.each_amount),0) end) from u_account_item ai
+            left join u_account_head ah on ai.header_id=ah.id and ifnull(ah.delete_flag,'0') !='1'
             where ah.organ_id=s.id and ah.type=#{billType}
             and ah.bill_time>#{beginTime} and ah.bill_time &lt;= #{endTime}
             and ifnull(ai.delete_flag,'0') !='1') backMoney
-        from jsh_supplier s
+        from t_supplier s
         where s.enabled=1
         and s.type=#{supplierType}
         <if test="organId != null">
@@ -736,7 +736,7 @@
             -- 上期欠款金额
             (select
             ifnull(sum(dh.discount_last_money),0)+ifnull(sum(dh.other_money),0)-ifnull(sum(dh.deposit),0)-abs(ifnull(sum(dh.change_amount),0))
-            from jsh_depot_head dh
+            from t_depot_head dh
             where dh.organ_id=s.id
             and dh.type=#{type} and dh.sub_type=#{subType}
             and dh.oper_time &lt;= #{beginTime}
@@ -744,21 +744,21 @@
             -- 上期退货的欠款金额
             (select
             ifnull(sum(dh.discount_last_money),0)+ifnull(sum(dh.other_money),0)-ifnull(sum(dh.deposit),0)-abs(ifnull(sum(dh.change_amount),0))
-            from jsh_depot_head dh
+            from t_depot_head dh
             where dh.organ_id=s.id
             and dh.type=#{typeBack} and dh.sub_type=#{subTypeBack}
             and dh.oper_time &lt;= #{beginTime}
             and ifnull(dh.delete_flag,'0') !='1') preReturnDebtMoney,
             -- 上期收付款
-            (select (case when ah.type='收款' then ifnull(sum(ai.each_amount),0) else 0-ifnull(sum(ai.each_amount),0) end) from jsh_account_item ai
-            left join jsh_account_head ah on ai.header_id=ah.id and ifnull(ah.delete_flag,'0') !='1'
+            (select (case when ah.type='收款' then ifnull(sum(ai.each_amount),0) else 0-ifnull(sum(ai.each_amount),0) end) from u_account_item ai
+            left join u_account_head ah on ai.header_id=ah.id and ifnull(ah.delete_flag,'0') !='1'
             where ah.organ_id=s.id and ah.type=#{billType}
             and ah.bill_time &lt;= #{beginTime}
             and ifnull(ai.delete_flag,'0') !='1') preBackMoney,
             -- 本期欠款
             (select
             ifnull(sum(dh.discount_last_money),0)+ifnull(sum(dh.other_money),0)-ifnull(sum(dh.deposit),0)-abs(ifnull(sum(dh.change_amount),0))
-            from jsh_depot_head dh
+            from t_depot_head dh
             where dh.organ_id=s.id
             and dh.type=#{type} and dh.sub_type=#{subType}
             and dh.oper_time>#{beginTime} and dh.oper_time &lt;= #{endTime}
@@ -766,18 +766,18 @@
             -- 本期退货的欠款金额
             (select
             ifnull(sum(dh.discount_last_money),0)+ifnull(sum(dh.other_money),0)-ifnull(sum(dh.deposit),0)-abs(ifnull(sum(dh.change_amount),0))
-            from jsh_depot_head dh
+            from t_depot_head dh
             where dh.organ_id=s.id
             and dh.type=#{typeBack} and dh.sub_type=#{subTypeBack}
             and dh.oper_time>#{beginTime} and dh.oper_time &lt;= #{endTime}
             and ifnull(dh.delete_flag,'0') !='1') returnDebtMoney,
             -- 本期收付款
-            (select (case when ah.type='收款' then ifnull(sum(ai.each_amount),0) else 0-ifnull(sum(ai.each_amount),0) end) from jsh_account_item ai
-            left join jsh_account_head ah on ai.header_id=ah.id and ifnull(ah.delete_flag,'0') !='1'
+            (select (case when ah.type='收款' then ifnull(sum(ai.each_amount),0) else 0-ifnull(sum(ai.each_amount),0) end) from u_account_item ai
+            left join u_account_head ah on ai.header_id=ah.id and ifnull(ah.delete_flag,'0') !='1'
             where ah.organ_id=s.id and ah.type=#{billType}
             and ah.bill_time>#{beginTime} and ah.bill_time &lt;= #{endTime}
             and ifnull(ai.delete_flag,'0') !='1') backMoney
-        from jsh_supplier s
+        from t_supplier s
         where s.enabled=1
         and s.type=#{supplierType}
         <if test="organId != null">
@@ -801,43 +801,43 @@
             (case when s.type='供应商' then ifnull(s.begin_need_pay,0) else ifnull(s.begin_need_get,0) end) begin_need,
             (select
             ifnull(sum(dh.discount_last_money),0)+ifnull(sum(dh.other_money),0)-ifnull(sum(dh.deposit),0)-abs(ifnull(sum(dh.change_amount),0))
-            from jsh_depot_head dh
+            from t_depot_head dh
             where dh.organ_id=s.id
             and dh.type=#{type} and dh.sub_type=#{subType}
             and dh.oper_time &lt;= #{beginTime}
             and ifnull(dh.delete_flag,'0') !='1') preDebtMoney,
             (select
             ifnull(sum(dh.discount_last_money),0)+ifnull(sum(dh.other_money),0)-ifnull(sum(dh.deposit),0)-abs(ifnull(sum(dh.change_amount),0))
-            from jsh_depot_head dh
+            from t_depot_head dh
             where dh.organ_id=s.id
             and dh.type=#{typeBack} and dh.sub_type=#{subTypeBack}
             and dh.oper_time &lt;= #{beginTime}
             and ifnull(dh.delete_flag,'0') !='1') preReturnDebtMoney,
-            (select (case when ah.type='收款' then ifnull(sum(ai.each_amount),0) else 0-ifnull(sum(ai.each_amount),0) end) from jsh_account_item ai
-            left join jsh_account_head ah on ai.header_id=ah.id and ifnull(ah.delete_flag,'0') !='1'
+            (select (case when ah.type='收款' then ifnull(sum(ai.each_amount),0) else 0-ifnull(sum(ai.each_amount),0) end) from u_account_item ai
+            left join u_account_head ah on ai.header_id=ah.id and ifnull(ah.delete_flag,'0') !='1'
             where ah.organ_id=s.id and ah.type=#{billType}
             and ah.bill_time &lt;= #{beginTime}
             and ifnull(ai.delete_flag,'0') !='1') preBackMoney,
             (select
             ifnull(sum(dh.discount_last_money),0)+ifnull(sum(dh.other_money),0)-ifnull(sum(dh.deposit),0)-abs(ifnull(sum(dh.change_amount),0))
-            from jsh_depot_head dh
+            from t_depot_head dh
             where dh.organ_id=s.id
             and dh.type=#{type} and dh.sub_type=#{subType}
             and dh.oper_time>#{beginTime} and dh.oper_time &lt;= #{endTime}
             and ifnull(dh.delete_flag,'0') !='1') debtMoney,
             (select
             ifnull(sum(dh.discount_last_money),0)+ifnull(sum(dh.other_money),0)-ifnull(sum(dh.deposit),0)-abs(ifnull(sum(dh.change_amount),0))
-            from jsh_depot_head dh
+            from t_depot_head dh
             where dh.organ_id=s.id
             and dh.type=#{typeBack} and dh.sub_type=#{subTypeBack}
             and dh.oper_time>#{beginTime} and dh.oper_time &lt;= #{endTime}
             and ifnull(dh.delete_flag,'0') !='1') returnDebtMoney,
-            (select (case when ah.type='收款' then ifnull(sum(ai.each_amount),0) else 0-ifnull(sum(ai.each_amount),0) end) from jsh_account_item ai
-            left join jsh_account_head ah on ai.header_id=ah.id and ifnull(ah.delete_flag,'0') !='1'
+            (select (case when ah.type='收款' then ifnull(sum(ai.each_amount),0) else 0-ifnull(sum(ai.each_amount),0) end) from u_account_item ai
+            left join u_account_head ah on ai.header_id=ah.id and ifnull(ah.delete_flag,'0') !='1'
             where ah.organ_id=s.id and ah.type=#{billType}
             and ah.bill_time>#{beginTime} and ah.bill_time &lt;= #{endTime}
             and ifnull(ai.delete_flag,'0') !='1') backMoney
-        from jsh_supplier s
+        from t_supplier s
         where s.enabled=1
         and s.type=#{supplierType}
         <if test="organId != null">
@@ -857,9 +857,9 @@
     <select id="getDetailByNumber" parameterType="com.jsh.erp.datasource.entities.DepotHeadExample" resultMap="ResultMapEx">
         select dh.*, concat(dh.sub_type,dh.type) as depotHeadType, a.name AccountName,
                s.supplier OrganName, s.contacts, s.telephone, s.address
-        from jsh_depot_head dh
-        left join jsh_supplier s on dh.organ_id=s.id and ifnull(s.delete_Flag,'0') !='1'
-        left join jsh_account a on dh.account_id=a.id and ifnull(a.delete_Flag,'0') !='1'
+        from t_depot_head dh
+        left join t_supplier s on dh.organ_id=s.id and ifnull(s.delete_Flag,'0') !='1'
+        left join t_account a on dh.account_id=a.id and ifnull(a.delete_Flag,'0') !='1'
         where 1=1
         <if test="number != null">
             and dh.number=#{number}
@@ -868,7 +868,7 @@
     </select>
 
     <update id="batchDeleteDepotHeadByIds">
-        update jsh_depot_head
+        update t_depot_head
         set delete_flag='1'
         where 1=1
         and id in (
@@ -881,7 +881,7 @@
     <select id="getDepotHeadListByAccountIds" resultMap="com.jsh.erp.datasource.mappers.DepotHeadMapper.BaseResultMap">
         select
         <include refid="com.jsh.erp.datasource.mappers.DepotHeadMapper.Base_Column_List" />
-        from jsh_depot_head
+        from t_depot_head
         where 1=1
         and account_id in (
         <foreach collection="accountIds" item="accountId" separator=",">
@@ -893,7 +893,7 @@
     <select id="getDepotHeadListByOrganIds" resultMap="com.jsh.erp.datasource.mappers.DepotHeadMapper.BaseResultMap">
         select
         <include refid="com.jsh.erp.datasource.mappers.DepotHeadMapper.Base_Column_List" />
-        from jsh_depot_head
+        from t_depot_head
         where 1=1
         and organ_id in (
         <foreach collection="organIds" item="organId" separator=",">
@@ -905,7 +905,7 @@
     <select id="getDepotHeadListByCreator" resultMap="com.jsh.erp.datasource.mappers.DepotHeadMapper.BaseResultMap">
         select
         <include refid="com.jsh.erp.datasource.mappers.DepotHeadMapper.Base_Column_List" />
-        from jsh_depot_head
+        from t_depot_head
         where 1=1
         and creator in (
         <foreach collection="creatorArray" item="creator" separator=",">
@@ -919,8 +919,8 @@
         select
         ifnull(sum(discount_last_money),0) from
         (select distinct dh.id, dh.discount_last_money
-        from jsh_depot_head dh
-        left join jsh_depot_item di on dh.id = di.header_id
+        from t_depot_head dh
+        left join t_depot_item di on dh.id = di.header_id
         where 1=1
         and di.id is not null
         <if test="type != null">
@@ -959,8 +959,8 @@
         select
         ifnull(sum(total_price),0) from
         (select distinct dh.id, dh.total_price
-        from jsh_depot_head dh
-        left join jsh_depot_item di on dh.id = di.header_id
+        from t_depot_head dh
+        left join t_depot_item di on dh.id = di.header_id
         where 1=1
         and di.id is not null
         <if test="type != null">
@@ -991,11 +991,11 @@
 
     <select id="debtList" parameterType="com.jsh.erp.datasource.entities.DepotHeadExample" resultMap="ResultMapEx">
         select distinct dh.*, s.supplier OrganName, u.username userName
-        from jsh_depot_head dh
-        left join jsh_supplier s on dh.organ_id=s.id and ifnull(s.delete_Flag,'0') !='1'
-        left join jsh_user u on dh.creator=u.id and ifnull(u.Status,'0') !='1'
-        left join jsh_depot_item di on dh.id = di.header_id and ifnull(di.delete_flag,'0') !='1'
-        left join jsh_material m on di.material_id = m.id and ifnull(m.delete_flag,'0') !='1'
+        from t_depot_head dh
+        left join t_supplier s on dh.organ_id=s.id and ifnull(s.delete_Flag,'0') !='1'
+        left join t_user u on dh.creator=u.id and ifnull(u.Status,'0') !='1'
+        left join t_depot_item di on dh.id = di.header_id and ifnull(di.delete_flag,'0') !='1'
+        left join t_material m on di.material_id = m.id and ifnull(m.delete_flag,'0') !='1'
         where 1=1
         and (dh.type='入库' or dh.type='出库')
         and (dh.sub_type='采购' or dh.sub_type='销售' or dh.sub_type='采购退货' or dh.sub_type='销售退货')
@@ -1033,7 +1033,7 @@
             </foreach>
             )
         </if>
-        and (abs(dh.change_amount)+(select ifnull(sum(abs(ai.each_amount)),0) from jsh_account_item ai where ai.bill_id=dh.id and ifnull(ai.delete_flag,'0') !='1'))
+        and (abs(dh.change_amount)+(select ifnull(sum(abs(ai.each_amount)),0) from u_account_item ai where ai.bill_id=dh.id and ifnull(ai.delete_flag,'0') !='1'))
         &lt; (dh.discount_last_money + dh.other_money - ifnull(dh.deposit,0))
         and ifnull(dh.delete_flag,'0') !='1'
         order by dh.oper_time desc
@@ -1045,11 +1045,11 @@
     <select id="debtListCount" resultType="java.lang.Integer">
         select count(1) from (
         select distinct dh.*, s.supplier OrganName, u.username userName
-        from jsh_depot_head dh
-        left join jsh_supplier s on dh.organ_id=s.id and ifnull(s.delete_Flag,'0') !='1'
-        left join jsh_user u on dh.creator=u.id and ifnull(u.Status,'0') !='1'
-        left join jsh_depot_item di on dh.id = di.header_id and ifnull(di.delete_flag,'0') !='1'
-        left join jsh_material m on di.material_id = m.id and ifnull(m.delete_flag,'0') !='1'
+        from t_depot_head dh
+        left join t_supplier s on dh.organ_id=s.id and ifnull(s.delete_Flag,'0') !='1'
+        left join t_user u on dh.creator=u.id and ifnull(u.Status,'0') !='1'
+        left join t_depot_item di on dh.id = di.header_id and ifnull(di.delete_flag,'0') !='1'
+        left join t_material m on di.material_id = m.id and ifnull(m.delete_flag,'0') !='1'
         where 1=1
         and (dh.type='入库' or dh.type='出库')
         and (dh.sub_type='采购' or dh.sub_type='销售' or dh.sub_type='采购退货' or dh.sub_type='销售退货')
@@ -1087,14 +1087,14 @@
             </foreach>
             )
         </if>
-        and (abs(dh.change_amount)+(select ifnull(sum(abs(ai.each_amount)),0) from jsh_account_item ai where ai.bill_id=dh.id and ifnull(ai.delete_flag,'0') !='1'))
+        and (abs(dh.change_amount)+(select ifnull(sum(abs(ai.each_amount)),0) from u_account_item ai where ai.bill_id=dh.id and ifnull(ai.delete_flag,'0') !='1'))
         &lt; (dh.discount_last_money + dh.other_money - ifnull(dh.deposit,0))
         and ifnull(dh.delete_flag,'0') !='1' ) tb
     </select>
 
     <select id="getFinishDepositByNumberList" resultType="com.jsh.erp.datasource.vo.FinishDepositVo">
         select dh.link_number number, ifnull(sum(dh.deposit),0) finishDeposit
-        from jsh_depot_head dh
+        from t_depot_head dh
         where 1=1
         <if test="numberList.size()>0">
             and dh.link_number in
@@ -1108,21 +1108,21 @@
 
     <select id="getFinishDepositByNumberExceptCurrent" resultType="java.math.BigDecimal">
         select ifnull(sum(dh.deposit),0)
-        from jsh_depot_head dh
+        from t_depot_head dh
         where dh.link_number=#{linkNumber}
         and dh.number!=#{number}
         and ifnull(dh.delete_flag,'0') !='1'
     </select>
 
     <update id="setAccountIdToNull">
-        update jsh_depot_head dh set dh.account_id = null
+        update t_depot_head dh set dh.account_id = null
         where dh.id=#{id}
         and ifnull(dh.delete_flag,'0') !='1'
     </update>
 
     <select id="getSerialNumberBySell" resultType="java.lang.Integer">
-        select count(s.id) from jsh_depot_head dh
-        left join jsh_serial_number s on dh.number=s.in_bill_no
+        select count(s.id) from t_depot_head dh
+        left join t_serial_number s on dh.number=s.in_bill_no
         where dh.number = #{number}
         and (s.out_bill_no is not null or s.out_bill_no!='')
     </select>
@@ -1130,10 +1130,10 @@
     <select id="waitBillList" parameterType="com.jsh.erp.datasource.entities.DepotHeadExample" resultMap="ResultMapEx">
         select jdh.*, s.supplier OrganName, u.username userName, a.name AccountName
         from (select dh.id
-        from jsh_depot_head dh
-        left join jsh_depot_item di on dh.id = di.header_id and ifnull(di.delete_flag,'0') !='1'
-        left join jsh_material m on di.material_id = m.id and ifnull(m.delete_flag,'0') !='1'
-        left join jsh_material_extend me on di.material_extend_id = me.id and ifnull(me.delete_flag,'0') !='1'
+        from t_depot_head dh
+        left join t_depot_item di on dh.id = di.header_id and ifnull(di.delete_flag,'0') !='1'
+        left join t_material m on di.material_id = m.id and ifnull(m.delete_flag,'0') !='1'
+        left join t_material_extend me on di.material_extend_id = me.id and ifnull(me.delete_flag,'0') !='1'
         where 1=1
         <if test="type != null">
             and dh.type=#{type}
@@ -1189,19 +1189,19 @@
         <if test="offset != null and rows != null">
             limit #{offset},#{rows}
         </if>) tb
-        left join jsh_depot_head jdh on jdh.id=tb.id and ifnull(jdh.delete_flag,'0') !='1'
-        left join jsh_supplier s on jdh.organ_id=s.id and ifnull(s.delete_flag,'0') !='1'
-        left join jsh_user u on jdh.creator=u.id and ifnull(u.Status,'0') !='1'
-        left join jsh_account a on jdh.account_id=a.id and ifnull(a.delete_flag,'0') !='1'
+        left join t_depot_head jdh on jdh.id=tb.id and ifnull(jdh.delete_flag,'0') !='1'
+        left join t_supplier s on jdh.organ_id=s.id and ifnull(s.delete_flag,'0') !='1'
+        left join t_user u on jdh.creator=u.id and ifnull(u.Status,'0') !='1'
+        left join t_account a on jdh.account_id=a.id and ifnull(a.delete_flag,'0') !='1'
     </select>
 
     <select id="waitBillCount" resultType="java.lang.Long">
         select
         count(1) from
-        (select distinct dh.id from jsh_depot_head dh
-        left join jsh_depot_item di on dh.Id = di.header_id and ifnull(di.delete_flag,'0') !='1'
-        left join jsh_material m on di.material_id = m.Id and ifnull(m.delete_Flag,'0') !='1'
-        left join jsh_material_extend me on di.material_extend_id = me.id and ifnull(me.delete_flag,'0') !='1'
+        (select distinct dh.id from t_depot_head dh
+        left join t_depot_item di on dh.Id = di.header_id and ifnull(di.delete_flag,'0') !='1'
+        left join t_material m on di.material_id = m.Id and ifnull(m.delete_Flag,'0') !='1'
+        left join t_material_extend me on di.material_extend_id = me.id and ifnull(me.delete_flag,'0') !='1'
         WHERE 1=1
         <if test="type != null">
             and dh.type=#{type}
@@ -1254,7 +1254,7 @@
     </select>
 
     <select id="getBillAllPriceByOrganId" resultType="java.math.BigDecimal">
-        select ifnull(sum(dh.total_price),0) allPrice from jsh_depot_head dh
+        select ifnull(sum(dh.total_price),0) allPrice from t_depot_head dh
         where dh.organ_id=#{organId}
         and dh.type = '出库'
         and dh.sub_type = '零售'
